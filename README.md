@@ -1,36 +1,15 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Stocker💹:
+Stocker is an all-in-one platform designed to help users track their stock investments in real time. This work-in-progress project offers a comprehensive suite of features, including profit/loss analysis, currency conversion, and personalized suggestions. Whether you're a seasoned investor or just starting, Stocker provides the tools you need to manage and optimize your portfolio.
 
-## Getting Started
+## Features✨:
+Real-Time Stock Tracking: Monitor your stock investments with up-to-the-minute updates. Stocker allows you to input and track various stock positions, ensuring you always have the latest information at your fingertips.
 
-First, run the development server:
+Profit/Loss Calculation: Easily calculate your profits or losses based on your initial investment value. Stocker provides clear insights into how your investments are performing, helping you make informed decisions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Currency Converter: Convert your stock values between different currencies with ease. This feature ensures that you can view your investments in your preferred currency, making it simpler to manage international investments.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+OpenAI-Powered Suggestions: Leverage the power of OpenAI to receive personalized investment suggestions and insights. Stocker analyzes market trends and provides recommendations tailored to your portfolio.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+User Dashboard: Access a comprehensive dashboard to view your overall portfolio performance. The dashboard provides a clear overview of your investments, including metrics like total value, gains, and losses.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Secure Profile Management: Sign up and manage your profile securely with Clerk authentication. Stocker ensures that your personal information and investment data are protected.

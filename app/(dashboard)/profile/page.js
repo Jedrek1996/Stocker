@@ -1,7 +1,6 @@
-import React from "react";
-
+import { UserProfile } from "@clerk/nextjs";
 const ProfilesPage = () => {
-  return <div>ProfilesPage</div>;
+  return <UserProfile routing="hash" />;
 };
 
 export default ProfilesPage;

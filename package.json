@@ -16,7 +16,7 @@
     "axios": "^1.6.1",
     "lottie-react": "^2.4.0",
     "next": "^14.2.5",
-    "openai": "^4.14.2",
+    "openai": "^4.53.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",

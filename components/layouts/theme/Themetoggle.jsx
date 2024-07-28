@@ -3,13 +3,12 @@ import { useState } from "react";
 import { themes } from "@/data/themes";
 
 const Themetoggle = () => {
-  const [theme, setTheme] = useState(themes.emerald);
+  const [theme, setTheme] = useState(themes.dracula);
 
   const toggleTheme = () => {
-    const newTheme = theme === themes.emerald ? themes.dracula : themes.emerald;
+    const newTheme = theme === themes.dracula ? themes.emerald : themes.dracula;
     document.documentElement.setAttribute("data-theme", newTheme);
     setTheme(newTheme);
-    console.log(newTheme);
   };
 
   return (

@@ -3,7 +3,6 @@ import { currentUser } from "@clerk/nextjs/server";
 
 const Profile = async () => {
   const user = await currentUser();
-  console.log(user);
   return (
     <div className="px-4 flex items-center gap-2 text-secondary text-sm">
       <UserButton />

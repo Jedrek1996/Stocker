@@ -1,4 +1,4 @@
-import StockCard from "./stockCard";
+import StockCard from "./StockCard";
 const StocksList = ({ data }) => {
   if (data.length === 0) return <h4 className="text-lg ">No tours found...</h4>;
 

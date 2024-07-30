@@ -1,0 +1,25 @@
+
+// npx prisma init - setup prisma dir
+// npx prisma db push - updates db to match the schema here
+// npx prisma studio - prisma gui
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_ADDON_URI")
+}
+
+model StockAIModel {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stock String
+  country String
+  title String
+  description String @db.Text
+  userId String   
+  @@unique([stock, country, userId]) //Ensures that the combination of stock and country is unique 
+}

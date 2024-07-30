@@ -1,3 +1,7 @@
+# Live Demo
+
+You can view a live demo of the application [here](https://stocker-alpha.vercel.app).
+
 # Stocker💹
 
 Stocker is an all-in-one platform designed to help users track their stock investments in real time. This work-in-progress project offers a comprehensive suite of features, including profit/loss analysis, currency conversion, and personalized suggestions. Whether you're a seasoned investor or just starting, Stocker provides the tools you need to manage and optimize your portfolio.

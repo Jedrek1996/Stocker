@@ -1,6 +1,6 @@
 export const questions = {
-  "stock Information": [
-    "What is the current price of [stock input] in [country input]?",
+  "Stock Information": [
+    "What are the primary products or services offered by [stock input] in [country input]?",
     "How has [stock input] performed over the last year in [country input]?",
     "What are the key financial metrics for [stock input] in [country input]?",
   ],

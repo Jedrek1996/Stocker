@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Lottie from "lottie-react";
 import LandingAnimation from "@/public/animations/LandingAnimation.json";
 

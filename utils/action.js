@@ -1,5 +1,6 @@
 "use server";
 import OpenAI from "openai";
+import prisma from "./db";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -27,10 +28,6 @@ export const generateChatResponse = async (chatMessages) => {
 };
 
 // https://platform.openai.com/docs/quickstart?context=node
-
-export const getExistingStockQuery = async ({ stock, country }) => {
-  return null;
-};
 
 export const generateStockResponse = async (userQuery) => {
   console.log("Received Query: 🤨🤨🤨🤨" + userQuery);
@@ -72,6 +69,127 @@ export const generateStockResponse = async (userQuery) => {
   }
 };
 
-export const getNewStockQuery = async (tour) => {
-  return null;
+export const getExistingStockQuery = async ({ stock, country, userId }) => {
+  if (!userId) {
+    throw new Error("User ID is required to fetch the stock data.");
+  }
+
+  return prisma.stockAIModel.findUnique({
+    where: {
+      stock_country_userId: {
+        stock,
+        country,
+        userId, // Ensure the query checks the specific user's data
+      },
+    },
+  });
 };
+
+// export const createNewStockQuery = async (stock) => {
+//   return prisma.stockAIModel.create({
+//     data: stock,
+//   });
+// };
+export const createNewStockQuery = async (stock, userId) => {
+  return prisma.stockAIModel.create({
+    data: {
+      ...stock,
+      userId, // Add the userId to the data object
+    },
+  });
+};
+
+// export const getAllStockQuery = async (searchInput) => {
+//   // If no search input by default
+//   if (!searchInput) {
+//     const aiQueries = await prisma.stockAIModel.findMany({
+//       orderBy: {
+//         stock: "asc",
+//       },
+//     });
+//     return aiQueries;
+//   }
+
+//   const aiQueries = await prisma.stockAIModel.findMany({
+//     where: {
+//       OR: [
+//         {
+//           stock: {
+//             contains: searchInput,
+//           },
+//         },
+//         {
+//           country: {
+//             contains: searchInput,
+//           },
+//         },
+//       ],
+//     },
+//     orderBy: {
+//       stock: "asc",
+//     },
+//   });
+//   return aiQueries;
+// };
+
+export const getAllStockQuery = async (userId, searchInput) => {
+  if (!userId) {
+    throw new Error("User ID is required to fetch the stock data.");
+  }
+
+  // If no search input, return all stocks for the user
+  if (!searchInput) {
+    const aiQueries = await prisma.stockAIModel.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        stock: "asc",
+      },
+    });
+    return aiQueries;
+  }
+
+  const aiQueries = await prisma.stockAIModel.findMany({
+    where: {
+      userId,
+      OR: [
+        {
+          stock: {
+            contains: searchInput,
+          },
+        },
+        {
+          country: {
+            contains: searchInput,
+          },
+        },
+      ],
+    },
+    orderBy: {
+      stock: "asc",
+    },
+  });
+  return aiQueries;
+};
+
+export const getSingleStockQuery = async (id, userId) => {
+  if (!userId) {
+    throw new Error("User ID is required to fetch the stock data.");
+  }
+
+  return prisma.stockAIModel.findUnique({
+    where: {
+      id,
+      userId,
+    },
+  });
+};
+
+// export const getSingleStockQuery = async (id) => {
+//   return prisma.stockAIModel.findUnique({
+//     where: {
+//       id,
+//     },
+//   });
+// };

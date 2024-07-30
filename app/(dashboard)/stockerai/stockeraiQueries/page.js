@@ -3,13 +3,13 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import NewStock from "@/components/stock/new-stock";
+import StockQueriesSeachPage from "@/components/stock/StockQueriesSearch";
 
 const page = () => {
   const queryClient = new QueryClient();
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NewStock />
+      <StockQueriesSeachPage />
     </HydrationBoundary>
   );
 };

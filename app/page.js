@@ -7,10 +7,10 @@ const HomePage = () => {
       <div className="hero flex-1 flex items-center justify-center">
         <div className="text-center md:text-left max-w-md mx-auto">
           <h1 className="text-6xl font-bold text-primary mb-4">Stocker</h1>
-          <p className="py-6 text-lg leading-loose text-gray-700">
+          <p className="mb-6 text-lg leading-loose text-secondary">
             Stocker: Stalk your stocks! 💹
           </p>
-          <Link href="/stocks" className="btn btn-secondary btn-lg">
+          <Link href="/stocks" className="btn btn-accent btn-sm">
             Get Started!
           </Link>
         </div>

@@ -4,8 +4,7 @@ import DashboardCard from "./DashboardCard";
 const basePath = "https://finnhub.io/api/v1";
 
 export const fetchStockQuote = async (stockSymbol) => {
-  const url = `${basePath}/quote?symbol=${stockSymbol}&token=cqktuj1r01qr0sv0ki7gcqktuj1r01qr0sv0ki80`;
-  console.log(`Fetching stock quote from: ${url}`);
+  const url = `${basePath}/quote?symbol=${stockSymbol}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
 
   const response = await fetch(url);
 

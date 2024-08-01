@@ -9,6 +9,7 @@ const HomePage = () => {
           <h1 className="text-6xl font-bold text-primary mb-4">Stocker</h1>
           <p className="mb-6 text-lg leading-loose text-secondary">
             Stocker: Stalk your stocks! 💹
+            <br /> (Currently in development!)
           </p>
           <Link href="/stocks" className="btn btn-accent btn-sm">
             Get Started!

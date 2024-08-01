@@ -18,8 +18,6 @@ const StockQueriesSeachPage = () => {
   const [selectedQuery, setSelectedQuery] = useState("");
   const [queriesData, setQueriesData] = useState([]);
 
-  console.log(userId + "💵💵💵💵");
-  //user_2jy7NR28XzqO0pJ4FsXS9zpwtRT
   useEffect(() => {
     const newQueriesData = Object.keys(questions).map((category) => ({
       category,
@@ -30,7 +28,7 @@ const StockQueriesSeachPage = () => {
       ),
     }));
     setQueriesData(newQueriesData);
-    setSelectedQuery(""); // Reset selectedQuery when stock or country changes
+    setSelectedQuery("");
   }, [selectedStock, selectedCountry]);
 
   const queryClient = useQueryClient();
@@ -64,15 +62,6 @@ const StockQueriesSeachPage = () => {
     },
   });
 
-  // const queriesData = Object.keys(questions).map((category) => ({
-  //   category,
-  //   questions: questions[category].map((question) =>
-  //     question
-  //       .replace("stock input", selectedStock)
-  //       .replace("country input", selectedCountry)
-  //   ),
-  // }));
-
   const handleSelectedQuery = (query) => {
     console.log(query);
     setSelectedQuery(query);
@@ -85,8 +74,6 @@ const StockQueriesSeachPage = () => {
     const formInputs = Object.fromEntries(formData.entries());
     formInputs.selectedQuery = selectedQuery;
     formInputs.userId = userId;
-
-    console.log("✨✨✨✨✨" + formInputs);
 
     if (!selectedQuery) {
       toast.error("Please select a query!");

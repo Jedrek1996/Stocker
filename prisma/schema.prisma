@@ -23,3 +23,15 @@ model StockAIModel {
   userId String   
   @@unique([stock, country, userId]) //Ensures that the combination of stock and country is unique 
 }
+
+model StockModel {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stockTicker String
+  amount Int
+  price Float
+  totalValue Float
+  userId String   
+  @@unique([stockTicker, userId]) 
+}

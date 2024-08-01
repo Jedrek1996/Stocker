@@ -79,58 +79,20 @@ export const getExistingStockQuery = async ({ stock, country, userId }) => {
       stock_country_userId: {
         stock,
         country,
-        userId, // Ensure the query checks the specific user's data
+        userId,
       },
     },
   });
 };
 
-// export const createNewStockQuery = async (stock) => {
-//   return prisma.stockAIModel.create({
-//     data: stock,
-//   });
-// };
 export const createNewStockQuery = async (stock, userId) => {
   return prisma.stockAIModel.create({
     data: {
       ...stock,
-      userId, // Add the userId to the data object
+      userId,
     },
   });
 };
-
-// export const getAllStockQuery = async (searchInput) => {
-//   // If no search input by default
-//   if (!searchInput) {
-//     const aiQueries = await prisma.stockAIModel.findMany({
-//       orderBy: {
-//         stock: "asc",
-//       },
-//     });
-//     return aiQueries;
-//   }
-
-//   const aiQueries = await prisma.stockAIModel.findMany({
-//     where: {
-//       OR: [
-//         {
-//           stock: {
-//             contains: searchInput,
-//           },
-//         },
-//         {
-//           country: {
-//             contains: searchInput,
-//           },
-//         },
-//       ],
-//     },
-//     orderBy: {
-//       stock: "asc",
-//     },
-//   });
-//   return aiQueries;
-// };
 
 export const getAllStockQuery = async (userId, searchInput) => {
   if (!userId) {
@@ -186,10 +148,87 @@ export const getSingleStockQuery = async (id, userId) => {
   });
 };
 
-// export const getSingleStockQuery = async (id) => {
-//   return prisma.stockAIModel.findUnique({
-//     where: {
-//       id,
-//     },
-//   });
-// };
+// Users action, stock query.
+export const createOrUpdateStockInput = async (stock, userId) => {
+  const { stockTicker, amount, price } = stock;
+
+  try {
+    // Check if the stock exists for the user
+    const existingStock = await prisma.stockModel.findUnique({
+      where: {
+        stockTicker_userId: {
+          stockTicker,
+          userId,
+        },
+      },
+    });
+
+    if (existingStock) {
+      // Stock exists: update the amount, price, and total value
+      const newAmount = existingStock.amount + amount;
+      const newTotalValue = existingStock.totalValue + price * amount;
+      const newPrice = newTotalValue / newAmount;
+
+      return await prisma.stockModel.update({
+        where: {
+          id: existingStock.id,
+        },
+        data: {
+          amount: newAmount,
+          price: newPrice,
+          totalValue: newTotalValue,
+        },
+      });
+    } else {
+      // Stock does not exist: create a new stock entry
+      const totalValue = price * amount;
+
+      return await prisma.stockModel.create({
+        data: {
+          stockTicker,
+          amount,
+          price,
+          totalValue,
+          userId,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error creating or updating stock input:", error);
+    throw error;
+  }
+};
+
+export const getAllStockInput = async (userId, searchInput) => {
+  if (!userId) {
+    throw new Error("User ID is required to fetch the stock data.");
+  }
+
+  if (!searchInput) {
+    // Fetch all stocks for the user
+    const userStocks = await prisma.stockModel.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        stockTicker: "asc",
+      },
+    });
+    return userStocks;
+  }
+
+  // Fetch stocks matching the search input
+  const userStocks = await prisma.stockModel.findMany({
+    where: {
+      userId,
+      stockTicker: {
+        contains: searchInput,
+        mode: "insensitive", // Case-insensitive search
+      },
+    },
+    orderBy: {
+      stockTicker: "asc",
+    },
+  });
+  return userStocks;
+};

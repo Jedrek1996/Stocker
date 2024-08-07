@@ -88,7 +88,6 @@ const StockQueriesSeachPage = () => {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <h1 className="mb-4 text-center text-5xl">StockAI Common Queries</h1>
         <ul className="mb-4 menu bg-base-200 rounded-box min-w-max">
           {queriesData.map(({ category, questions }) => (
             <li key={category}>

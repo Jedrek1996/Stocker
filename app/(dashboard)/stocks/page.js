@@ -2,6 +2,7 @@
 import { createOrUpdateStockInput, getAllStockInput } from "@/utils/action";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
+import { SparkChart } from "@/components/userStocks/SparkChart";
 
 const StocksPage = () => {
   const [stockTicker, setStockTicker] = useState("");
@@ -64,7 +65,6 @@ const StocksPage = () => {
 
   return (
     <>
-      <h1 className="mb-4 text-center text-5xl">Your Stocks!</h1>
       <div className="flex flex-col space-y-10">
         <div className=" fixed flex space-x-10">
           <div className="p-4 mx-auto bg-neutral rounded-xl shadow-md space-y-2">
@@ -167,6 +167,7 @@ const StocksPage = () => {
           <p>No stocks available.</p>
         )}
       </div>
+      <SparkChart />
     </>
   );
 };

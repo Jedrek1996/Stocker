@@ -1,16 +1,15 @@
 "use client";
-import { mockUserInput } from "@/data/mock";
 import {
   getTotalAssets,
   getAllUserStockTickers,
-  fetchStockQuote,
   getAllStockQuotes,
-  verifyStockExists,
   compareUserStock,
   getUserStocks,
 } from "../../utils/action";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { AreaChartDiagram } from "./AreaChart";
+import { DonutChartDisplay } from "./DonutChartDisplay";
 
 const DashboardCard = ({ stockQuote }) => {
   const [totalAssets, setTotalAssets] = useState("");
@@ -20,7 +19,6 @@ const DashboardCard = ({ stockQuote }) => {
   const [realTimeStocks, setRealTimeStocks] = useState({});
   const [comparisonResults, setComparisonResults] = useState([]);
   const [totalProfitLoss, setTotalProfitLoss] = useState(0);
-  const [profitLossPercentage, setProfitLossPercentage] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +51,7 @@ const DashboardCard = ({ stockQuote }) => {
         let totalProfitLoss = 0;
         results.forEach((result) => {
           const profitLoss =
-            (result.currentStockPrice - result.userPrice) * result.amount;
+            (result.userPrice - result.currentStockPrice) * result.amount;
           totalProfitLoss += profitLoss;
         });
 
@@ -96,14 +94,9 @@ const DashboardCard = ({ stockQuote }) => {
             <p>{percentage.toFixed(2)}%</p>
           </div>
         </div>
-        <div className="card bg-neutral text-neutral-content w-1/4">
-          <div className="card-body ">
-            <h2 className="card-title">Cookies!</h2>
-            <p>We are using cookies for no reason.</p>
-          </div>
-        </div>
+        <DonutChartDisplay userStockData={userStocks} />
       </div>
-
+      <AreaChartDiagram />
       <div>
         <h2>Stock Quote</h2>
         <p>

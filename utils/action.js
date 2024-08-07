@@ -273,7 +273,7 @@ export const getUserStocks = async (userId, stockTickers) => {
 //✨ Fetch Stock Quote- Main API Call ✨
 export const fetchStockQuote = async (stockSymbol) => {
   const url = `${basePath}/quote?symbol=${stockSymbol}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
-  console.log("✨✨✨Stock symbol" + stockSymbol);
+  console.log("✨Fetching from" + url);
   try {
     const response = await fetch(url);
 
@@ -289,6 +289,30 @@ export const fetchStockQuote = async (stockSymbol) => {
     return { stockSymbol, result: null, exists: false };
   }
 };
+
+export const fetchHistoricalStockData = async (stockSymbol, startDate, endDate) => {
+  const startTimestamp = new Date(startDate).getTime() / 1000; // Convert to UNIX timestamp
+  const endTimestamp = new Date(endDate).getTime() / 1000; // Convert to UNIX timestamp
+
+  const url = `${basePath}/stock/candle?symbol=${stockSymbol}&resolution=D&from=${startTimestamp}&to=${endTimestamp}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
+  console.log("✨Fetching from " + url);
+  
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const message = `An error has occurred: ${response.status}`;
+      throw new Error(message);
+    }
+
+    const result = await response.json();
+    return { stockSymbol, result, exists: true };
+  } catch (error) {
+    console.error(`Error fetching historical stock data for ${stockSymbol}:`, error);
+    return { stockSymbol, result: null, exists: false };
+  }
+};
+
 
 //✨ Get All User's Stock Tickers/Symbols ✨
 export const getAllUserStockTickers = async (userId) => {

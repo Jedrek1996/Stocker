@@ -11,7 +11,7 @@ const HomePage = () => {
             Stocker: Stalk your stocks! 💹
             <br /> (Currently in development!)
           </p>
-          <Link href="/stocks" className="btn btn-accent btn-sm">
+          <Link href="/dashboard" className="btn btn-accent btn-sm">
             Get Started!
           </Link>
         </div>

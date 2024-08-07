@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
+import { fetchStockQuote } from "../../utils/action";
 import DashboardCard from "./DashboardCard";
-
-const basePath = "https://finnhub.io/api/v1";
-
-export const fetchStockQuote = async (stockSymbol) => {
-  const url = `${basePath}/quote?symbol=${stockSymbol}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const message = `An error has occurred: ${response.status}`;
-    throw new Error(message);
-  }
-  return await response.json();
-};
 
 const StockQuote = ({ stockSymbol }) => {
   const [stockQuote, setStockQuote] = useState(null);

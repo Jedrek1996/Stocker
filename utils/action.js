@@ -2,6 +2,8 @@
 import OpenAI from "openai";
 import prisma from "./db";
 
+const basePath = "https://finnhub.io/api/v1";
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -231,4 +233,129 @@ export const getAllStockInput = async (userId, searchInput) => {
     },
   });
   return userStocks;
+};
+
+//✨ Get all the stock values the user inputed ✨
+export const getTotalAssets = async (userId) => {
+  const userStocks = await prisma.stockModel.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  let totalAssets = 0;
+
+  for (let i = 0; i < userStocks.length; i++) {
+    totalAssets += userStocks[i].totalValue;
+  }
+
+  return totalAssets;
+};
+
+export const getUserStocks = async (userId, stockTickers) => {
+  const userStocks = await prisma.stockModel.findMany({
+    where: {
+      userId,
+      stockTicker: {
+        in: stockTickers,
+      },
+    },
+  });
+
+  const resultObject = userStocks.reduce((acc, stock) => {
+    acc[stock.stockTicker] = stock;
+    return acc;
+  }, {});
+
+  return resultObject;
+};
+
+//✨ Fetch Stock Quote- Main API Call ✨
+export const fetchStockQuote = async (stockSymbol) => {
+  const url = `${basePath}/quote?symbol=${stockSymbol}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
+  console.log("✨✨✨Stock symbol" + stockSymbol);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const message = `An error has occurred: ${response.status}`;
+      throw new Error(message);
+    }
+
+    const result = await response.json();
+    return { stockSymbol, result, exists: true };
+  } catch (error) {
+    console.error(`Error fetching stock quote for ${stockSymbol}:`, error);
+    return { stockSymbol, result: null, exists: false };
+  }
+};
+
+//✨ Get All User's Stock Tickers/Symbols ✨
+export const getAllUserStockTickers = async (userId) => {
+  const userStocks = await prisma.stockModel.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  let stockTickers = [];
+
+  for (let i = 0; i < userStocks.length; i++) {
+    stockTickers.push(userStocks[i].stockTicker);
+  }
+  return stockTickers;
+};
+
+//✨ Get All Actual Stock Quotes ✨
+export const getAllStockQuotes = async (stockTickers) => {
+  try {
+    const results = await Promise.all(
+      stockTickers.map(async (stockTicker) => {
+        return await fetchStockQuote(stockTicker);
+      })
+    );
+
+    const resultObject = results.reduce((acc, { stockSymbol, result }) => {
+      acc[stockSymbol] = result;
+      return acc;
+    }, {});
+    return resultObject;
+  } catch (error) {
+    console.error("Error fetching stock quotes:", error);
+  }
+};
+
+export const compareUserStock = async (userStocks, realTimeStocks) => {
+  const comparisonResults = [];
+
+  for (const [stockTicker, userStock] of Object.entries(userStocks)) {
+    const { price, amount } = userStock;
+
+    const realTimeStock = realTimeStocks[stockTicker];
+
+    if (realTimeStock) {
+      const currentStockPrice = realTimeStock.c;
+
+      comparisonResults.push({
+        stockTicker,
+        userPrice: price,
+        currentStockPrice,
+        amount,
+      });
+    } else {
+      comparisonResults.push({
+        stockTicker,
+        userPrice: price,
+        currentStockPrice: null,
+        amount,
+      });
+    }
+  }
+  return comparisonResults;
+};
+
+export const verifyStockExists = async (stockTicker) => {
+  console.log(stockTicker);
+  const { exists } = await fetchStockQuote(stockTicker);
+  return exists;
 };

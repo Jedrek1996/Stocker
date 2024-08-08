@@ -252,6 +252,27 @@ export const getTotalAssets = async (userId) => {
   return totalAssets;
 };
 
+export async function saveUserDataCron(userId) {
+  try {
+    const currentTime = new Date().toISOString();
+    console.log(`Cron job triggered for user ${userId} at ${currentTime}`);
+    
+    const totalAssets = await getTotalAssets(userId);
+
+    await prisma.userTotalAssets.create({
+      data: {
+        userId,
+        date: new Date(),
+        totalAssets,
+      },
+    });
+
+    console.log(`Successfully saved total assets for user ${userId}`);
+  } catch (error) {
+    console.error(`Error saving total assets for user ${userId}:`, error);
+  }
+}
+
 export const getUserStocks = async (userId, stockTickers) => {
   const userStocks = await prisma.stockModel.findMany({
     where: {
@@ -290,13 +311,17 @@ export const fetchStockQuote = async (stockSymbol) => {
   }
 };
 
-export const fetchHistoricalStockData = async (stockSymbol, startDate, endDate) => {
+export const fetchHistoricalStockData = async (
+  stockSymbol,
+  startDate,
+  endDate
+) => {
   const startTimestamp = new Date(startDate).getTime() / 1000; // Convert to UNIX timestamp
   const endTimestamp = new Date(endDate).getTime() / 1000; // Convert to UNIX timestamp
 
   const url = `${basePath}/stock/candle?symbol=${stockSymbol}&resolution=D&from=${startTimestamp}&to=${endTimestamp}&token=${process.env.NEXT_PUBLIC_FINNHUB_API_KEY}`;
   console.log("✨Fetching from " + url);
-  
+
   try {
     const response = await fetch(url);
 
@@ -308,11 +333,13 @@ export const fetchHistoricalStockData = async (stockSymbol, startDate, endDate) 
     const result = await response.json();
     return { stockSymbol, result, exists: true };
   } catch (error) {
-    console.error(`Error fetching historical stock data for ${stockSymbol}:`, error);
+    console.error(
+      `Error fetching historical stock data for ${stockSymbol}:`,
+      error
+    );
     return { stockSymbol, result: null, exists: false };
   }
 };
-
 
 //✨ Get All User's Stock Tickers/Symbols ✨
 export const getAllUserStockTickers = async (userId) => {

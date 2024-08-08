@@ -29,12 +29,14 @@ Stocker is an all-in-one platform designed to help users track their stock inves
 
 ## Future Plans 🚀
 
-- **Enhanced Dashboard**: Develop an advanced dashboard with detailed analysis, customizable views, and more in-depth insights into portfolio performance.
-
 - **Real-Time Stock Tracker**: Enhance the real-time stock tracking feature to include more detailed market data, alerts, and notifications.
 
 - **Currency Converter Expansion**: Expand the currency converter feature to support more currencies and provide historical exchange rate data.
 
-- **Profit/Loss Converter Enhancements**: Improve the profit/loss calculation feature to include advanced metrics, tax considerations, and predictive analytics.
-
 - **Test Cases**: Comprehensive test cases will be implemented to ensure the reliability and accuracy of Stocker's features.
+
+# Limitations
+
+- **Batch/ Cron Job Schelduer**: Due to using free tiers of various services, not all functionalities may perform optimally. Specifically, the cron job designed to save user data will only execute once daily at 23:59. This means that user asset data is recorded at the end of each day.
+
+- **Stock API provided by FinnHub & Polygon.ai**: The APIs provided by FinnHub and Polygon.ai might have restrictions or limitations in their free tiers, potentially affecting the frequency and depth of data retrieval.

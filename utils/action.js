@@ -235,6 +235,24 @@ export const getAllStockInput = async (userId, searchInput) => {
   return userStocks;
 };
 
+//Delete Stock ✨
+export const deleteUserStock = async (userId, stockId) => {
+  try {
+    await prisma.stockModel.deleteMany({
+      where: {
+        id: stockId,
+        userId: userId,
+      },
+    });
+    console.log(
+      `Stock with ID ${stockId} for user ${userId} has been deleted.`
+    );
+  } catch (error) {
+    console.error("Error deleting stock:", error);
+    throw new Error("Failed to delete stock.");
+  }
+};
+
 //✨ Get all the stock values the user inputed ✨
 export const getTotalAssets = async (userId) => {
   const userStocks = await prisma.stockModel.findMany({
@@ -256,7 +274,7 @@ export async function saveUserDataCron(userId) {
   try {
     const currentTime = new Date().toISOString();
     console.log(`Cron job triggered for user ${userId} at ${currentTime}`);
-    
+
     const totalAssets = await getTotalAssets(userId);
 
     await prisma.userTotalAssets.create({

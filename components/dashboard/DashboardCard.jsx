@@ -67,22 +67,22 @@ const DashboardCard = () => {
   return (
     <>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-5">
-          <div className="card bg-neutral text-neutral-content w-1/4">
+        <div className="flex gap-5 min-h-min">
+          <div className="card bg-neutral text-neutral-content w-1/5">
             <div className="card-body ">
               <h2 className="card-title">Total Assets</h2>
               <h2>$ {totalAssets}</h2>
             </div>
           </div>
-          <div className="card bg-neutral text-neutral-content w-1/4">
+          <div className="card bg-neutral text-neutral-content w-1/5">
             <div className="card-body ">
               <h2 className="card-title">
-                {totalProfitLoss >= 0 ? "Net Profit 🟢" : "Net Loss 🔴"}
+                {totalProfitLoss >= 0 ? "Net Profit🟢" : "Net Loss🔴"}
               </h2>
               <p>{totalProfitLoss.toFixed(2)}</p>
             </div>
           </div>
-          <div className="card bg-neutral text-neutral-content w-1/4">
+          <div className="card bg-neutral text-neutral-content w-1/5">
             <div className="card-body ">
               <h2 className="card-title">
                 {totalProfitLoss >= 0 ? "Profit Percentage" : "Loss Percentage"}

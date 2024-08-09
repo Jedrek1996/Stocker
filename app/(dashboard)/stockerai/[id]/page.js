@@ -1,3 +1,5 @@
+"use client";
+
 import StockInfo from "@/components/stock/StockInfo";
 import { getSingleStockQuery } from "@/utils/action";
 import Link from "next/link";

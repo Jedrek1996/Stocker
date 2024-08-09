@@ -2,7 +2,6 @@
 import { createOrUpdateStockInput, getAllStockInput } from "@/utils/action";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import { SparkChart } from "@/components/userStocks/SparkChart";
 import StockTable from "@/components/userStocks/StockTable";
 
 const StocksPage = () => {

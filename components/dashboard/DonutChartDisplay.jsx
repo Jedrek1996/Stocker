@@ -19,12 +19,12 @@ export function DonutChartDisplay({ userStockData }) {
           index="name"
           valueFormatter={valueFormatter}
           colors={["blue", "cyan", "indigo", "violet", "fuchsia"]}
-          className="w-40"
+          className="w-28 h-28 text-xs"
         />
         <Legend
           categories={transformedData.map((stock) => stock.name)}
           colors={["blue", "cyan", "indigo", "violet", "fuchsia"]}
-          className="max-w-xs"
+          className=""
         />
       </div>
     </>

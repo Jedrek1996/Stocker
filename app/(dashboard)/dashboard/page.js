@@ -1,10 +1,10 @@
 "use client";
-import StockQuote from "@/components/dashboard/StockQuote";
+import DashboardCard from "@/components/dashboard/DashboardCard";
 
 const Page = () => {
   return (
     <div>
-      <StockQuote />
+      <DashboardCard />
     </div>
   );
 };

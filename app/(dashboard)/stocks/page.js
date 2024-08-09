@@ -3,6 +3,7 @@ import { createOrUpdateStockInput, getAllStockInput } from "@/utils/action";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { SparkChart } from "@/components/userStocks/SparkChart";
+import StockTable from "@/components/userStocks/StockTable";
 
 const StocksPage = () => {
   const [stockTicker, setStockTicker] = useState("");
@@ -65,11 +66,12 @@ const StocksPage = () => {
 
   return (
     <>
-      <div className="flex flex-col space-y-10">
-        <div className=" fixed flex space-x-10">
-          <div className="p-4 mx-auto bg-neutral rounded-xl shadow-md space-y-2">
+      <div className="flex">
+        <div className=" flex space-x-10">
+          {/* Add Stock  */}
+          <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md h-min">
             <h1 className="text-xl font-bold">Add Stock</h1>
-            <form onSubmit={handleSubmit} className="space-y-1">
+            <form onSubmit={handleSubmit}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Stock Ticker</span>
@@ -107,13 +109,13 @@ const StocksPage = () => {
                   placeholder="150.00"
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-full">
+              <button type="submit" className="btn btn-primary w-full mt-4">
                 Add Stock
               </button>
             </form>
           </div>
 
-          <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md space-y-4 mt-8">
+          <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md space-y-4 h-min">
             <h1 className="text-xl font-bold">Search Stocks</h1>
             <form onSubmit={handleSearch} className="space-y-4">
               <div className="form-control">
@@ -151,25 +153,16 @@ const StocksPage = () => {
         </div>
       </div>
 
-      <div className="mt-4 fixed bottom-72">
-        <h2 className="text-md font-bold">All Stocks</h2>
-        {allStocks.length > 0 ? (
-          <ul className="list-disc ml-4">
-            {allStocks.map((stock) => (
-              <li key={stock.id}>
-                <strong>{stock.stockTicker}</strong>: {stock.amount} @ $
-                {stock.price} each, Total Value: $
-                {(stock.amount * stock.price).toFixed(2)}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No stocks available.</p>
-        )}
-      </div>
-      <SparkChart />
+      <StockTable allStocks={allStocks} />
     </>
   );
 };
 
 export default StocksPage;
+
+/*Configure layout.
+Add Stocks spark chart. (polygonai)
+Add and delete stocks.
+Add company info hover?
+Compare user stock percentage changes.
+*/

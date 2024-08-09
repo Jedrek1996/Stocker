@@ -8,7 +8,7 @@ export function DonutChartDisplay({ userStockData }) {
     name: stock.stockTicker,
     value: stock.totalValue,
   }));
-  console.log(transformedData);
+  // console.log(transformedData);
 
   return (
     <>

@@ -10,12 +10,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { AreaChartDiagram } from "./AreaChart";
 import { DonutChartDisplay } from "./DonutChartDisplay";
+import { SparkChart } from "./SparkChart";
 
 const DashboardCard = () => {
   const [totalAssets, setTotalAssets] = useState("");
   const { userId } = useAuth();
 
   const [userStocks, setUserStocks] = useState({});
+  const [stockTickers, setStockTickers] = useState([]);
   const [totalProfitLoss, setTotalProfitLoss] = useState(0);
 
   useEffect(() => {
@@ -23,18 +25,19 @@ const DashboardCard = () => {
       try {
         // Fetch total assets
         const data = await getTotalAssets(userId);
-        // console.log("Total Assets:", data);
         setTotalAssets(data);
 
         // Fetch stock tickers
-        const stockTickers = await getAllUserStockTickers();
+        const userStockTickers = await getAllUserStockTickers();
+        setStockTickers(userStockTickers);
+        console.log("User STOCK TICKERS" + userStockTickers);
 
         // Fetch real-time stock quotes
-        const realTimeData = await getAllStockQuotes(stockTickers);
-        // console.log("Actual Stocks 💹💹" + realTimeData);
+        const realTimeData = await getAllStockQuotes(userStockTickers);
+        // console.log("Actual Stocks 💹💹" + JSON.stringify(realTimeData));
 
         // Fetch user stocks
-        const userStockData = await getUserStocks(userId, stockTickers);
+        const userStockData = await getUserStocks(userId, userStockTickers);
         setUserStocks(userStockData);
         // console.log("User Stocks 🥲🥲" + userStockData);
 
@@ -57,39 +60,45 @@ const DashboardCard = () => {
     if (userId) {
       fetchData();
     }
-  }, [userId]);
+  }, []);
 
   const percentage =
     totalAssets === 0 ? 0 : (totalProfitLoss / totalAssets) * 100;
-  console.log(percentage);
   return (
     <>
-      <div className="flex gap-5">
-        <div className="card bg-neutral text-neutral-content w-1/4">
-          <div className="card-body ">
-            <h2 className="card-title">Total Assets</h2>
-            <h2>$ {totalAssets}</h2>
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-5">
+          <div className="card bg-neutral text-neutral-content w-1/4">
+            <div className="card-body ">
+              <h2 className="card-title">Total Assets</h2>
+              <h2>$ {totalAssets}</h2>
+            </div>
           </div>
-        </div>
-        <div className="card bg-neutral text-neutral-content w-1/4">
-          <div className="card-body ">
-            <h2 className="card-title">
-              {totalProfitLoss >= 0 ? "Net Profit 🟢" : "Net Loss 🔴"}
-            </h2>
-            <p>{totalProfitLoss.toFixed(2)}</p>
+          <div className="card bg-neutral text-neutral-content w-1/4">
+            <div className="card-body ">
+              <h2 className="card-title">
+                {totalProfitLoss >= 0 ? "Net Profit 🟢" : "Net Loss 🔴"}
+              </h2>
+              <p>{totalProfitLoss.toFixed(2)}</p>
+            </div>
           </div>
-        </div>
-        <div className="card bg-neutral text-neutral-content w-1/4">
-          <div className="card-body ">
-            <h2 className="card-title">
-              {totalProfitLoss >= 0 ? "Profit Percentage" : "Loss Percentage"}
-            </h2>
-            <p>{percentage.toFixed(2)}%</p>
+          <div className="card bg-neutral text-neutral-content w-1/4">
+            <div className="card-body ">
+              <h2 className="card-title">
+                {totalProfitLoss >= 0 ? "Profit Percentage" : "Loss Percentage"}
+              </h2>
+              <p>{percentage.toFixed(2)}%</p>
+            </div>
           </div>
+          <DonutChartDisplay userStockData={userStocks} />
         </div>
-        <DonutChartDisplay userStockData={userStocks} />
+        <div className="grid grid-cols-2 gap-4">
+          {stockTickers.map((ticker) => (
+            <SparkChart key={ticker} stockTicker={ticker} />
+          ))}
+        </div>
+        <AreaChartDiagram />
       </div>
-      <AreaChartDiagram />
     </>
   );
 };

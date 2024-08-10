@@ -67,10 +67,9 @@ const StocksPage = () => {
     <>
       <div className="flex">
         <div className=" flex space-x-10">
-          {/* Add Stock  */}
           <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md h-min">
             <h1 className="text-xl font-bold">Add Stock</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Stock Ticker</span>
@@ -79,7 +78,7 @@ const StocksPage = () => {
                   type="text"
                   value={stockTicker}
                   onChange={(e) => setStockTicker(e.target.value)}
-                  className="input input-bordered"
+                  className="input input-bordered text-xs"
                   placeholder="AAPL"
                 />
               </div>
@@ -91,7 +90,7 @@ const StocksPage = () => {
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="input input-bordered"
+                  className="input input-bordered text-xs"
                   placeholder="100"
                 />
               </div>
@@ -104,11 +103,14 @@ const StocksPage = () => {
                   step="0.01"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="input input-bordered"
+                  className="input input-bordered text-xs"
                   placeholder="150.00"
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-full mt-4">
+              <button
+                type="submit"
+                className="btn btn-primary flex w-3/4 text-xs mx-auto"
+              >
                 Add Stock
               </button>
             </form>
@@ -125,11 +127,14 @@ const StocksPage = () => {
                   type="text"
                   value={searchStock}
                   onChange={(e) => setSearchStock(e.target.value)}
-                  className="input input-bordered"
+                  className="input input-bordered text-xs"
                   placeholder="AAPL"
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-full">
+              <button
+                type="submit"
+                className="btn btn-primary flex w-3/4 text-xs mx-auto"
+              >
                 Search Stock
               </button>
             </form>

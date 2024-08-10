@@ -1,7 +1,8 @@
 "use client";
-import { deleteUserStock } from "@/utils/action";
 import { useAuth } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
+import { deleteUserStock } from "@/utils/action";
+import DeleteModal from "@/components/userStocks/DeleteModal";
 
 const StockTable = ({ allStocks }) => {
   const { userId } = useAuth();
@@ -48,12 +49,17 @@ const StockTable = ({ allStocks }) => {
                 <td>{new Date(stock.createdAt).toLocaleString()}</td>
                 <td>{new Date(stock.updatedAt).toLocaleString()}</td>
                 <td>
-                  <button
+                  {/* <button
                     className="text-red-400"
                     onClick={() => handleDeleteStock(userId, stock.id)}
                   >
                     Delete
-                  </button>
+                  </button> */}
+                  <DeleteModal
+                    userId={userId}
+                    stockId={stock.id}
+                    handleDeleteStock={handleDeleteStock}
+                  />
                 </td>
               </tr>
             ))

@@ -154,12 +154,29 @@ export const getSingleStockQuery = async (id, userId) => {
 export const createOrUpdateStockInput = async (stock, userId) => {
   const { stockTicker, amount, price } = stock;
 
+  // Convert stockTicker to uppercase
+  const upperStockTicker = stockTicker.toUpperCase();
+
   try {
+    const data = await fetchStockQuote(upperStockTicker);
+
+    if (data.result?.d == null) {
+      console.warn(`No data found for stock ticker ${upperStockTicker}`);
+      return false;
+    }
+
+    // Extract and format stock data
+    const formattedPrice = parseFloat(data.result.c).toFixed(2);
+    const formattedHigh = parseFloat(data.result.h).toFixed(2);
+    const formattedLow = parseFloat(data.result.l).toFixed(2);
+    const formattedChange = parseFloat(data.result.d).toFixed(2);
+    const formattedChangePercent = parseFloat(data.result.dp).toFixed(2);
+
     // Check if the stock exists for the user
     const existingStock = await prisma.stockModel.findUnique({
       where: {
         stockTicker_userId: {
-          stockTicker,
+          stockTicker: upperStockTicker,
           userId,
         },
       },
@@ -168,8 +185,10 @@ export const createOrUpdateStockInput = async (stock, userId) => {
     if (existingStock) {
       // Stock exists: update the amount, price, and total value
       const newAmount = existingStock.amount + amount;
-      const newTotalValue = existingStock.totalValue + price * amount;
-      const newPrice = newTotalValue / newAmount;
+      const newTotalValue = (existingStock.totalValue + price * amount).toFixed(
+        2
+      );
+      const newPrice = (newTotalValue / newAmount).toFixed(2);
 
       return await prisma.stockModel.update({
         where: {
@@ -177,20 +196,20 @@ export const createOrUpdateStockInput = async (stock, userId) => {
         },
         data: {
           amount: newAmount,
-          price: newPrice,
-          totalValue: newTotalValue,
+          price: parseFloat(newPrice),
+          totalValue: parseFloat(newTotalValue),
         },
       });
     } else {
       // Stock does not exist: create a new stock entry
-      const totalValue = price * amount;
+      const totalValue = (price * amount).toFixed(2);
 
       return await prisma.stockModel.create({
         data: {
-          stockTicker,
+          stockTicker: upperStockTicker,
           amount,
-          price,
-          totalValue,
+          price: parseFloat(price.toFixed(2)),
+          totalValue: parseFloat(totalValue),
           userId,
         },
       });

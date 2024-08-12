@@ -28,6 +28,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
       - name: Install NPM dependencies
         run: npm install
 

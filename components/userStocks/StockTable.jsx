@@ -49,12 +49,6 @@ const StockTable = ({ allStocks }) => {
                 <td>{new Date(stock.createdAt).toLocaleString()}</td>
                 <td>{new Date(stock.updatedAt).toLocaleString()}</td>
                 <td>
-                  {/* <button
-                    className="text-red-400"
-                    onClick={() => handleDeleteStock(userId, stock.id)}
-                  >
-                    Delete
-                  </button> */}
                   <DeleteModal
                     userId={userId}
                     stockId={stock.id}

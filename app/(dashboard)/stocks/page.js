@@ -66,10 +66,11 @@ const StocksPage = () => {
   return (
     <>
       <div className="flex">
-        <div className=" flex space-x-10">
-          <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md h-min">
+        <div className=" flex space-y-5 flex-col items-start">
+          <div className="p-2 bg-neutral rounded-xl shadow-md h-min min-w-min">
             <h1 className="text-xl font-bold">Add Stock</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
+
+            <form onSubmit={handleSubmit} className="space-x-3 flex">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Stock Ticker</span>
@@ -109,16 +110,16 @@ const StocksPage = () => {
               </div>
               <button
                 type="submit"
-                className="btn btn-primary flex w-3/4 text-xs mx-auto"
+                className="btn btn-primary w-1/12 text-xs mt-auto"
               >
                 Add Stock
               </button>
             </form>
           </div>
 
-          <div className="p-2 mx-auto bg-neutral rounded-xl shadow-md space-y-4 h-min">
+          <div className="p-2 bg-neutral rounded-xl shadow-md h-min w-min">
             <h1 className="text-xl font-bold">Search Stocks</h1>
-            <form onSubmit={handleSearch} className="space-y-4">
+            <form onSubmit={handleSearch} className="flex space-x-3">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Search for stocks</span>
@@ -133,7 +134,7 @@ const StocksPage = () => {
               </div>
               <button
                 type="submit"
-                className="btn btn-primary flex w-3/4 text-xs mx-auto"
+                className="btn btn-primary w-1/5 text-xs mt-auto"
               >
                 Search Stock
               </button>

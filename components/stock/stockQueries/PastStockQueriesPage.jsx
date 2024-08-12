@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 
-const pastStockQueriesPage = () => {
+const PastStockQueriesPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const { userId } = useAuth();
   const { data, isPending } = useQuery({
@@ -46,4 +46,4 @@ const pastStockQueriesPage = () => {
   );
 };
 
-export default pastStockQueriesPage;
+export default PastStockQueriesPage;

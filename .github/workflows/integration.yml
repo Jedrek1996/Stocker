@@ -1,4 +1,4 @@
-name: Build Stocker Web Application
+name: Build Stocker web application
 
 on:
   push:
@@ -9,27 +9,25 @@ on:
       - main
 
 jobs:
-  build-project:
-    name: Build and Test Project
+  build:
+    name: Build project
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'  
-
       - name: Install NPM dependencies
         run: npm install
 
-      - name: Run Linting
-        run: npm run lint  
+      - name: Run ESLint
+        run: npm run lint
 
-      - name: Build the Application
-        run: npm run build 
+      - name: Build project
+        run: npm run build
 
-      - name: Deploy to Vercel
-        run: vercel --prod
+      - name: Run tests
+        run: npm test
+
+      - name: Deploy
+        run: npm run deploy

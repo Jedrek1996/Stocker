@@ -60,7 +60,7 @@ const DashboardCard = () => {
     if (userId) {
       fetchData();
     }
-  }, []);
+  }, [userId]);
 
   const percentage =
     totalAssets === 0 ? 0 : (totalProfitLoss / totalAssets) * 100;

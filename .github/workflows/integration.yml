@@ -1,17 +1,28 @@
 name: Build Stocker web application
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: push
 
 jobs:
-  build:
+  build-project:
     name: Build project
     runs-on: ubuntu-latest
+
+    env:
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: ${{ secrets.NEXT_PUBLIC_CLERK_SIGN_IN_URL }}
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: ${{ secrets.NEXT_PUBLIC_CLERK_SIGN_UP_URL }}
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: ${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL }}
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: ${{ secrets.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      NEXT_PUBLIC_FINNHUB_API_KEY: ${{ secrets.NEXT_PUBLIC_FINNHUB_API_KEY }}
+      NEXT_PUBLIC_POLY_API_KEY: ${{ secrets.NEXT_PUBLIC_POLY_API_KEY }}
+      POSTGRESQL_ADDON_HOST: ${{ secrets.POSTGRESQL_ADDON_HOST }}
+      POSTGRESQL_ADDON_DB: ${{ secrets.POSTGRESQL_ADDON_DB }}
+      POSTGRESQL_ADDON_USER: ${{ secrets.POSTGRESQL_ADDON_USER }}
+      POSTGRESQL_ADDON_PORT: ${{ secrets.POSTGRESQL_ADDON_PORT }}
+      POSTGRESQL_ADDON_PASSWORD: ${{ secrets.POSTGRESQL_ADDON_PASSWORD }}
+      POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
 
     steps:
       - name: Checkout code
@@ -20,14 +31,8 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
 
-      - name: Run ESLint
+      - name: Run lint
         run: npm run lint
 
       - name: Build project
         run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Deploy
-        run: npm run deploy

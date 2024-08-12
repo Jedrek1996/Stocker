@@ -35,6 +35,11 @@ const StockerAIPage = () => {
 
   return (
     <div className="min-h-[calc(100vh-6rem)] grid grid-rows-[1fr,auto]">
+      {messages.length === 0 && (
+        <h1 className="m-auto text-primary text-2xl opacity-45">
+          💬 Enter Your Message Below!
+        </h1>
+      )}
       <div>
         {messages.map(({ role, content }, index) => {
           const avatar = role == "user" ? "👤" : "🤖";

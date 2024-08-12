@@ -1,6 +1,4 @@
 const DeleteModal = ({ userId, stockId, handleDeleteStock }) => {
-  console.log("Inside delete modal" + userId, stockId);
-
   const handleDelete = () => {
     handleDeleteStock(userId, stockId);
     document.getElementById("my_modal_5").close();

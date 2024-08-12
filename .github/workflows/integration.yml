@@ -44,3 +44,15 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Log deployment details
+        run: |
+          echo "Deployment Date: $(date)" >> deployment.log
+          echo "Git Commit: $GITHUB_SHA" >> deployment.log
+          echo "Branch: $GITHUB_REF" >> deployment.log
+
+      - name: Upload deployment logs as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment-logs
+          path: deployment.log
